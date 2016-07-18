@@ -21,6 +21,18 @@ yasil_string::yasil_string(const yasil_string& other) : content_(nullptr), size_
 	copy(other);
 }
 
+// Move semantics.
+yasil_string::yasil_string(yasil_string&& other) noexcept : content_(nullptr), size_(0)
+{
+	// In order to do proper move semantics do the following:
+	// Copy the pointer:
+	size_ = other.size_;
+	content_ = other.content_;
+	// Invalidate the other pointer:
+	other.content_ = nullptr;
+	other.size_ = 0;
+}
+
 void yasil_string::allocate(const size_t amount)
 {
 	reset();
@@ -56,4 +68,10 @@ void yasil_string::copy(const yasil_string& other)
 const char* yasil_string::c_str() const
 {
 	return content_;
+}
+
+// For move semantics.
+void yasil_string::move(yasil_string&& other) noexcept
+{
+
 }
