@@ -22,15 +22,15 @@ public:
 	// Assignment operator:
 	yasil_string& operator=(const yasil_string& other);
 
-	// Assignment with concatenation:
+	// Concatenation:
 	yasil_string& operator+=(const yasil_string& other);
 	yasil_string& operator+=(const char* other);
 
 	// Access element, brackets operator:
-	const char operator[](size_t index);
+	char operator[](size_t index) const;
 
 	// Access element, checked:
-	const char at(size_t index);
+	char at(size_t index) const;
 
 
 

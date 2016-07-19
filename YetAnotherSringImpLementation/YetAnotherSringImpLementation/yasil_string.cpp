@@ -86,3 +86,18 @@ yasil_string& yasil_string::operator=(const yasil_string& other)
 	swap(*this, temp);
 	return *this;
 }
+
+char yasil_string::operator[](size_t index) const
+{
+	return content_[index];
+}
+
+char yasil_string::at(size_t index) const
+{
+	if (index <= size_)
+	{
+		return operator[](index);
+	}
+	throw std::out_of_range("Index out of bounds");
+}
+
