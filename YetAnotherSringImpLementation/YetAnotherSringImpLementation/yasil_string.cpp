@@ -1,5 +1,8 @@
 #include "yasil_string.hpp"
 #include <string.h>
+#include <mutex>
+
+// Constructors:
 
 yasil_string::yasil_string() : content_(nullptr), size_(0)
 {
@@ -35,7 +38,7 @@ yasil_string::yasil_string(yasil_string&& other) noexcept : content_(nullptr), s
 
 void yasil_string::allocate(const size_t amount)
 {
-	reset();
+	delete[] content_;
 	size_ = (amount > MAX_STRING_LEN) ? MAX_STRING_LEN : amount;
 	content_= new char[amount + 1]();  // Zero fill the memory.
 }
@@ -70,8 +73,16 @@ const char* yasil_string::c_str() const
 	return content_;
 }
 
-// For move semantics.
-void yasil_string::move(yasil_string&& other) noexcept
+void swap(yasil_string& lhs, yasil_string& rhs)
 {
+	using std::swap;
+	swap(lhs.content_, rhs.content_);
+	swap(lhs.size_, rhs.size_);
+}
 
+yasil_string& yasil_string::operator=(const yasil_string& other)
+{
+	yasil_string temp(other);
+	swap(*this, temp);
+	return *this;
 }
